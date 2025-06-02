@@ -15,6 +15,7 @@
             <a href="telaPesquisaAdmin.php">Pesquisar</a>
             <a href="telaCRUDadmin.php">Gerenciar</a>
             <a href="cadastro.php">Cadastrar</a>
+            <a href="telaLogAdmin.php">Log</a>
             <a href="../Model/logout.php">Sair</a>
         </nav>
     </header>
@@ -36,9 +37,11 @@
         <div>
             <form action="../Model/DAO/deleteUsuarioDAO.php" method="post">
                 <input type="hidden" name="id_usuario" value="<?php echo $_SESSION['id_usuario']; ?>">
-                <input type="submit" value="Excluir usuário" onclick="return confirm('Tem certeza que deseja excluir sua conta?');">
+                <input type="submit" value="Excluir Conta" onclick="return confirm('Tem certeza que deseja excluir sua conta?');">
             </form>
         </div>
+
+        
     </section>
 
 <style>

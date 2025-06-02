@@ -150,6 +150,7 @@ input[type="number"]{
             <a href="telaPesquisaAdmin.php">Pesquisar</a>
             <a href="telaCRUDadmin.php">Gerenciar</a>
             <a href="cadastro.php">Cadastrar</a>
+            <a href="telaLogAdmin.php">Log</a>
             <a href="../Model/logout.php">Sair</a>
         </nav>
     </header>
@@ -214,9 +215,10 @@ input[type="number"]{
                 <select name="tipo">
                     <option value="medico">Médico</option>
                     <option value="paciente">Paciente</option>
+                    <option value ="usuario">Usuário</option>
                 </select>
             </label><br>
-            <label>CPF/CRM: <input type="text" name="cpf_crm"></label><br>
+            <label>CPF/CRM/Username: <input type="text" name="cpf_crm_username"></label><br>
             <input type="hidden" name="acao" value="deletar">
             <input type="submit" value="Deletar">
         </form>

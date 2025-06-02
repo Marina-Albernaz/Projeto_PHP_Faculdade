@@ -52,14 +52,17 @@ try {
         }
 
     } elseif ($acao === 'deletar') {
-        $cpf_crm = $_POST['cpf_crm'] ?? '';
+        $cpf_crm_username = $_POST['cpf_crm_username'] ?? '';
 
         if ($tipo === 'medico') {
             $stmt = $conexao->prepare("DELETE FROM medico WHERE crm = ?");
-            $stmt->bind_param("s", $cpf_crm);
+            $stmt->bind_param("s", $cpf_crm_username);
         } elseif ($tipo === 'paciente') {
             $stmt = $conexao->prepare("DELETE FROM paciente WHERE cpf = ?");
-            $stmt->bind_param("s", $cpf_crm);
+            $stmt->bind_param("s", $cpf_crm_username);
+        } elseif($tipo === 'usuario'){
+           $stmt = $conexao->prepare("DELETE FROM usuario WHERE usuario = ?");
+        $stmt->bind_param("s", $cpf_crm_username);
         }
 
         if ($stmt->execute() && $stmt->affected_rows > 0) {

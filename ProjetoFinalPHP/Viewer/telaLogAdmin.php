@@ -7,20 +7,24 @@
     <title>Pesquisar</title>
 </head>
 <body>
-    <header>
+     <header>
         <img src="../Images/logo hospital.avif">
         <h1>Hospital Regional de Xique-Xique</h1>
         <nav>
+            <a href="telaUsuarioAdmin.php">Página do Usuário</a>
+            <a href="telaPesquisaAdmin.php">Pesquisar</a>
+            <a href="telaCRUDadmin.php">Gerenciar</a>
+            <a href="cadastro.php">Cadastrar</a>
+            <a href="telaLogAdmin.php">Log</a>
             <a href="../Model/logout.php">Sair</a>
         </nav>
     </header>
 
     <section>
         <div>
-            <form action="telaPesquisa.php" method="post">
-                <input type="text" placeholder="Insira o nome do Paciente ou Médico" name="searchbar" id="searchbar" maxlength="100">
+            <form action="telaLogAdmin.php" method="post">
+                <input type="datetime-local" placeholder="Insira a Data da Operação Realizada" name="searchbar" id="searchbar" maxlength="100">
                 <input type="submit" name="botao" value="🔍">
-                <input type="submit" name="botao" value="🔗">
             </form>
         </div>
         
@@ -28,39 +32,27 @@
             <?php
             if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["searchbar"]) && isset($_POST["botao"])) {
     $acao = $_POST["botao"];
-    $pesquisa = trim($_POST["searchbar"]);
+    $pesquisa = $_POST["searchbar"];
+    $pesquisa = str_replace("T", " ", $pesquisa);
 
     include_once("../Model/DAO/conexao.php");
     $pesquisa = mysqli_real_escape_string($conexao, $pesquisa);
 
-   
-
-    if ($acao == "🔍") {
-        $query = "
-        SELECT nome, cpf, leito FROM paciente WHERE nome LIKE '$pesquisa%'
-        UNION
-        SELECT nome, crm AS cpf, leito FROM medico WHERE nome LIKE '$pesquisa%'
-        ";
+        
+        $query = "SELECT operacao, tabela, datahora FROM trigger_table WHERE datahora LIKE '$pesquisa%'";
         $resultado = mysqli_query($conexao, $query);
         if (mysqli_num_rows($resultado) > 0) {
             echo "<table border='1'>
             <tr>
-            <th>Nome</th>
-            <th>CPF/CRM</th>
-            <th>Leito</th>
-            <th>Tipo</th>
+            <th>Operação</th>
+            <th>Tabela</th>
+            <th>Data e Horário</th>
             </tr>";
             while ($linha = mysqli_fetch_assoc($resultado)) {
-                if (strlen($linha['cpf']) == 14) {
-                    $type = "Paciente";
-                } else {
-                    $type = "Médico";
-                }
                 echo "<tr>
-                <td>{$linha['nome']}</td>
-                <td>{$linha['cpf']}</td>";
-                if($linha['leito'] != 0){echo "<td>{$linha['leito']}</td>";} else {echo"<td>-</td>";}
-                echo "<td>{$type}</td>
+                <td>{$linha['operacao']}</td>
+                <td>{$linha['tabela']}</td>
+                <td>{$linha['datahora']}</td>
                 </tr>";
             }
             echo "</table>";
@@ -70,45 +62,12 @@
                 echo "<th class='errormsg'>Nenhum resultado encontrado.</th>";
                 echo "</tr>";
                 echo "</table>";
-        }
-    } elseif ($acao == "🔗") {
-        $query = "
-            SELECT p.nome AS paciente_nome, m.nome AS medico_nome
-            FROM paciente AS p
-            INNER JOIN medico AS m ON p.id_medico = m.id
-            WHERE p.nome LIKE '$pesquisa%'
-            ";
-        $resultado = mysqli_query($conexao, $query);
-            if (mysqli_num_rows($resultado) > 0) {
-                echo "<table border='1'>
-                <tr>
-                <th>Paciente</th>
-                <th>Médico</th>
-                </tr>";
-                while ($linha = mysqli_fetch_assoc($resultado)) {
-                    echo "<tr>
-                    <td>{$linha['paciente_nome']}</td>
-                    <td>{$linha['medico_nome']}</td>
-                    </tr>";
-                }
-                echo "</table>";
-            } else {
-               echo "<table>";
-                echo "<tr>";
-                echo "<th class='errormsg'>Nenhum paciente encontrado para o critério.</th>";
-                echo "</tr>";
-                echo "</table>";
-            }
-            mysqli_close($conexao);
-
-            }
-            } else{
+        } 
+           
+    }else{
                 echo"<table>";
                 echo"<tr>";
-                echo"<th>Selecione 🔍 para Pesquisar CPF/CRM de Pacientes/Médicos!</th>";
-                echo"</tr>";
-                echo"<tr>";
-                echo"<th>Selecione 🔗 para Pesquisar qual o Médico de cada Paciente!</th>";
+                echo"<th>Selecione 🔍 para Pesquisar!</th>";
                 echo"</tr>";
                 echo"</table>";
             }
