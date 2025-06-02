@@ -40,3 +40,67 @@ SELECT * FROM paciente;
 UPDATE usuario 
 SET tipo_usuario = 2
 WHERE usuario_id = 1;
+
+DROP TABLE trigger_table;
+
+CREATE TABLE trigger_table(
+	id INT NOT NULL AUTO_INCREMENT,
+	operacao VARCHAR(20) NOT NULL,
+	tabela VARCHAR(20) NOT NULL,
+	datahora DATETIME NOT NULL,
+	PRIMARY KEY (id)
+);
+
+DELIMITER $$
+
+CREATE TRIGGER insert_trigger_paciente
+	AFTER INSERT ON paciente
+		FOR EACH ROW 
+		BEGIN
+			INSERT INTO trigger_table(operacao, tabela, datahora)
+			VALUES('Insert', 'Paciente', NOW());
+		END;
+		
+CREATE TRIGGER insert_trigger_medico
+	AFTER INSERT ON medico
+		FOR EACH ROW 
+		BEGIN
+			INSERT INTO trigger_table(operacao, tabela, datahora)
+			VALUES('Insert', 'Medico', NOW());
+		END;
+
+CREATE TRIGGER update_trigger_paciente
+	AFTER UPDATE ON paciente
+		FOR EACH ROW 
+		BEGIN
+			INSERT INTO trigger_table(operacao, tabela, datahora)
+			VALUES('Update', 'Paciente', NOW());
+		END;
+
+CREATE TRIGGER update_trigger_medico
+	AFTER UPDATE ON medico
+		FOR EACH ROW 
+		BEGIN
+			INSERT INTO trigger_table(operacao, tabela, datahora)
+			VALUES('Update', 'Medico', NOW());
+		END;
+
+
+CREATE TRIGGER delete_trigger_paciente
+	AFTER DELETE ON paciente
+		FOR EACH ROW 
+		BEGIN
+			INSERT INTO trigger_table(operacao, tabela, datahora)
+			VALUES('Delete', 'Paciente', NOW());
+		END;
+
+CREATE TRIGGER delete_trigger_medico
+	AFTER DELETE ON medico
+		FOR EACH ROW 
+		BEGIN
+			INSERT INTO trigger_table(operacao, tabela, datahora)
+			VALUES('Delete', 'Medico', NOW());
+		END;
+
+
+DELIMITER ;
