@@ -14,6 +14,7 @@
             <a href="telaUsuarioAdmin.php">Página do Usuário</a>
             <a href="telaPesquisaAdmin.php">Pesquisar</a>
             <a href="telaCRUDadmin.php">Gerenciar</a>
+            <a href="cadastro.php">Cadastrar</a>
             <a href="../Model/logout.php">Sair</a>
         </nav>
     </header>

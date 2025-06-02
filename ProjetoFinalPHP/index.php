@@ -57,7 +57,6 @@ session_start();
                             <button type="submit" class="button is-block is-link is-large is-fullwidth">Entrar</button>
                         </form>
                     </div>
-                    <h4 class="title has-text-grey"><a href="Viewer/cadastro.php" target="_blank">Clique Aqui Para se Cadastrar</a></h4>
                 </div>
             </div>
         </div>
@@ -148,9 +147,6 @@ session_start();
         margin-bottom: 20px;
     }
 
-    h4 a{
-        font-size: medium;
-    }
     </style>
 
 </body>

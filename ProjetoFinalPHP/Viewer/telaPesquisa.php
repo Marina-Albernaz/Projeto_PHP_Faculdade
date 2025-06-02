@@ -65,7 +65,11 @@
             }
             echo "</table>";
         } else {
-            echo "Nenhum resultado encontrado.";
+           echo "<table>";
+                echo "<tr>";
+                echo "<th class='errormsg'>Nenhum resultado encontrado.</th>";
+                echo "</tr>";
+                echo "</table>";
         }
     } elseif ($acao == "🔗") {
         $query = "
@@ -89,7 +93,11 @@
                 }
                 echo "</table>";
             } else {
-                echo "Nenhum paciente encontrado para o critério.";
+               echo "<table>";
+                echo "<tr>";
+                echo "<th class='errormsg'>Nenhum paciente encontrado para o critério.</th>";
+                echo "</tr>";
+                echo "</table>";
             }
             mysqli_close($conexao);
 
@@ -200,6 +208,11 @@ th, td {
 th {
     background-color: #007bff;
     color: #fff;
+}
+
+th.errormsg{
+    text-align: center;
+    background-color: red;
 }
 
 tr:nth-child(even) {

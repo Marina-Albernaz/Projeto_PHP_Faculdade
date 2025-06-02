@@ -21,13 +21,20 @@
     <header>
         <img src="../Images/logo hospital.avif">
         <h1>Hospital Regional de Xique-Xique</h1>
+        <nav>
+            <a href="telaUsuarioAdmin.php">Página do Usuário</a>
+            <a href="telaPesquisaAdmin.php">Pesquisar</a>
+            <a href="telaCRUDadmin.php">Gerenciar</a>
+            <a href="cadastro.php">Cadastrar</a>
+            <a href="../Model/logout.php">Sair</a>
+        </nav>
     </header>
 
     <section class="hero is-success is-fullheight">
         <div class="hero-body">
             <div class="container has-text-centered">
                 <div class="column is-4 is-offset-4">
-                    <h3 class="title has-text-grey">Cadastrar-se</h3>
+                    <h3 class="title has-text-grey">Cadastrar um Usuário</h3>
                     
                     
                     <?php
@@ -35,7 +42,6 @@
                     ?>
                     <div class="notification is-success">
                       <p>Cadastro efetuado!</p>
-                      <p>Faça login informando o seu usuário e senha <a href="../Model/login.php">aqui</a></p>
                     </div>
                     <?php
                     endif;
@@ -71,7 +77,6 @@
                             <button type="submit" class="button is-block is-link is-large is-fullwidth">Cadastrar</button>
                         </form>
                     </div>
-                    <h4 class="title has-text-grey"><a href="../index.php" target="_blank">Clique Aqui Para Realizar o Login</a></h4>
                 </div>
             </div>
         </div>
@@ -89,17 +94,28 @@
     header {
     display: flex;
     align-items: center;
-    column-gap: 100px;
+    justify-content: space-between;
     background-color: #007bff;
     padding: 10px 20px;
     color: #f0f8ff;
-    font-size: xx-large;
     }
 
     header img {
     height: 60px;
     width: auto;
         }
+
+    nav a {
+    color: #fff;
+    text-decoration: none;
+    margin-left: 20px;
+    font-weight: bold;
+    transition: color 0.3s;
+    }
+
+    nav a:hover {
+    color: #ffd700;
+    }
 
     .hero.is-success {
         background-color: #e6f2ff;
@@ -162,11 +178,14 @@
         margin-bottom: 20px;
     }
 
-    h4 a{
-        font-size: medium;
+    h1{
+        font-size: 28px;
+        color:rgb(245, 245, 245);
+        font-weight: bold;
     }
+
     </style>
-    </style>
+    
 </body>
 
 </html>

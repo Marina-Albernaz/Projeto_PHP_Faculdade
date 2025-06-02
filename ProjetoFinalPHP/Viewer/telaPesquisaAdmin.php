@@ -7,13 +7,14 @@
     <title>Pesquisar</title>
 </head>
 <body>
-    <header>
+     <header>
         <img src="../Images/logo hospital.avif">
         <h1>Hospital Regional de Xique-Xique</h1>
         <nav>
             <a href="telaUsuarioAdmin.php">Página do Usuário</a>
             <a href="telaPesquisaAdmin.php">Pesquisar</a>
             <a href="telaCRUDadmin.php">Gerenciar</a>
+            <a href="cadastro.php">Cadastrar</a>
             <a href="../Model/logout.php">Sair</a>
         </nav>
     </header>
@@ -66,7 +67,11 @@
             }
             echo "</table>";
         } else {
-            echo "Nenhum resultado encontrado.";
+                echo "<table>";
+                echo "<tr>";
+                echo "<th class='errormsg'>Nenhum resultado encontrado.</th>";
+                echo "</tr>";
+                echo "</table>";
         }
     } elseif ($acao == "🔗") {
         $query = "
@@ -90,7 +95,11 @@
                 }
                 echo "</table>";
             } else {
-                echo "Nenhum paciente encontrado para o critério.";
+                echo "<table>";
+                echo "<tr>";
+                echo "<th class='errormsg'>Nenhum paciente encontrado para o critério.</th>";
+                echo "</tr>";
+                echo "</table>";
             }
             mysqli_close($conexao);
 
@@ -201,6 +210,11 @@ th, td {
 th {
     background-color: #007bff;
     color: #fff;
+}
+
+th.errormsg{
+    text-align: center;
+    background-color: red;
 }
 
 tr:nth-child(even) {

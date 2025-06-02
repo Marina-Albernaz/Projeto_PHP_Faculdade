@@ -10,10 +10,9 @@ if (isset($_SESSION['mensagem'])) {
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <link rel="icon" href="../Images/logo hospital.avif" type="image/x-icon">
+    
     <meta charset="UTF-8">
     <title>Página de Gerenciamento</title>
-    <link rel="stylesheet" href="../CSS/estilo.css">
     <style>
 body {
     font-family: Arial, sans-serif;
@@ -141,6 +140,7 @@ button:hover {
             <a href="telaUsuarioAdmin.php">Página do Usuário</a>
             <a href="telaPesquisaAdmin.php">Pesquisar</a>
             <a href="telaCRUDadmin.php">Gerenciar</a>
+            <a href="cadastro.php">Cadastrar</a>
             <a href="../Model/logout.php">Sair</a>
         </nav>
     </header>
