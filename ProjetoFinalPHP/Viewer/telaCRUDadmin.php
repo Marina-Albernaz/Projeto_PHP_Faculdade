@@ -195,30 +195,10 @@ input[type="number"]{
             <input type="submit" value="Inserir">
         </form>
 
-        <h2>Atualizar</h2>
+        <h2>Deletar Usuario</h2>
         <form action="../Model/DAO/CRUD_DAO.php" method="POST">
-            <label>Tipo:
-                <select name="tipo">
-                    <option value="medico">Médico</option>
-                    <option value="paciente">Paciente</option>
-                </select>
-            </label><br>
-            <label>CPF/CRM: <input type="text" name="cpf_crm"></label><br>
-            <label>Novo nome: <input type="text" name="novo_nome"></label><br>
-            <input type="hidden" name="acao" value="atualizar">
-            <input type="submit" value="Atualizar">
-        </form>
-
-        <h2>Deletar</h2>
-        <form action="../Model/DAO/CRUD_DAO.php" method="POST">
-            <label>Tipo:
-                <select name="tipo">
-                    <option value="medico">Médico</option>
-                    <option value="paciente">Paciente</option>
-                    <option value ="usuario">Usuário</option>
-                </select>
-            </label><br>
-            <label>CPF/CRM/Username: <input type="text" name="cpf_crm_username"></label><br>
+            <input type="hidden" value="usuario" name="tipo">
+            <label>Nome de Usuário: <input type="text" name="cpf_crm_username"></label><br>
             <input type="hidden" name="acao" value="deletar">
             <input type="submit" value="Deletar">
         </form>

@@ -1,3 +1,14 @@
+
+<?php
+session_start();
+require_once '../Model/DAO/conexao.php'; 
+$mensagem = '';
+if (isset($_SESSION['mensagem'])) {
+    $mensagem = $_SESSION['mensagem'];
+    unset($_SESSION['mensagem']);
+}
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -19,10 +30,15 @@
             <a href="../Model/logout.php">Sair</a>
         </nav>
     </header>
+     <?php if (!empty($mensagem)): ?>
+    <div class="mensagem <?php echo strtolower(trim($mensagem)) === 'sucesso!' ? 'sucesso' : 'erro'; ?>">
+        <?php echo $mensagem; ?>
+    </div>
+<?php endif; ?>
 
     <section>
         <div>
-            <form action="telaPesquisaAdmin.php" method="post">
+            <form action="telaPesquisaAdmin.php" method="post" class="formulario">
                 <input type="text" placeholder="Insira o nome do Paciente ou Médico" name="searchbar" id="searchbar" maxlength="100">
                 <input type="submit" name="botao" value="🔍">
                 <input type="submit" name="botao" value="🔗">
@@ -54,18 +70,51 @@
             <th>CPF/CRM</th>
             <th>Leito</th>
             <th>Tipo</th>
+            <th>Excluir</th>
+            <th>Alterar</th>
             </tr>";
             while ($linha = mysqli_fetch_assoc($resultado)) {
                 if (strlen($linha['cpf']) == 14) {
                     $type = "Paciente";
+                    $tipo = "paciente";
                 } else {
                     $type = "Médico";
+                    $tipo = "medico";
                 }
+
+                $cpf_crm = trim($linha['cpf']);
+
                 echo "<tr>
                 <td>{$linha['nome']}</td>
                 <td>{$linha['cpf']}</td>";
                 if($linha['leito'] != 0){echo "<td>{$linha['leito']}</td>";} else {echo"<td>-</td>";}
                 echo "<td>{$type}</td>
+                <td>
+                <form action='../Model/DAO/CRUD_DAO.php' method='post' class='formulario'>
+                <input type='hidden' value='deletar' name='acao'>
+                <input type='hidden' value='{$tipo}' name='tipo'>
+                <input type='hidden' value='{$cpf_crm}' name='cpf_crm_username'>
+                <input type='submit' value='Excluir' id='del'>
+                </form>
+                </td>
+                <td id='updtd'>
+                <form action='../Model/DAO/CRUD_DAO.php' method='post' id='upd'>
+                <select name='coluna'>
+                <option value='ns'>Selecione</option>
+                <option value='nome'>Nome</option>
+                <option value='cpfcrm'>CPF/CRM</option>
+                ";
+                if($tipo === 'paciente'){echo"<option value='leito'>Leito</option>";}
+                echo "</select>
+                <br>
+                <input type='hidden' value='atualizar' name='acao'>
+                <input type='hidden' value='{$tipo}' name='tipo'>
+                <input type='hidden' value='{$cpf_crm}' name='cpf_crm'>
+                <input type='text' placeholder='Dado Novo' name='novo_dado' id='updatetext'>
+                <br><br>
+                <input type='submit' value='Alterar' id='alt'>
+                </form>
+                </td>
                 </tr>";
             }
             echo "</table>";
@@ -164,7 +213,13 @@ section {
     margin: 0 auto;
 }
 
-form {
+form.formulario {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+form #upd{
     display: flex;
     justify-content: center;
     margin-bottom: 20px;
@@ -194,8 +249,32 @@ input[type="submit"] {
     transition: background-color 0.3s;
 }
 
-input[type="submit"]:hover {
-    background-color: #0056b3;
+input[type="submit"]#del {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    background-color:rgb(255, 0, 0);
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+input[type="submit"]#del:hover {
+    background-color:rgb(128, 9, 9);
+}
+
+input[type="submit"]#alt {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    background-color:rgb(255, 183, 0);
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+input[type="submit"]#alt:hover {
+    background-color:rgb(108, 79, 11);
 }
 
 table {
@@ -233,6 +312,68 @@ p {
     font-size: 18px;
     color: #555;
 }
+
+.mensagem {
+    margin: 20px auto;
+    padding: 20px;
+    max-width: 400px;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    border: 2px solid;
+    background-color: #f0f8ff;
+}
+
+.sucesso {
+    color: #28a745;
+    border-color: #28a745;
+}
+
+.erro {
+    color: #dc3545;
+    border-color: #dc3545;
+}
+
+#updatetext{
+    padding: 10px;
+    font-size: 16px;
+    border: 2px solid rgb(179, 155, 0);
+    border-radius: 4px 0 0 4px;
+    width: 100px;
+    outline: none;
+    transition: border-color 0.3s;
+    padding-top: 10px;
+    margin:10px;
+}
+
+#updatetext:focus {
+    border-color:rgb(96, 84, 3);
+}
+
+select{
+   padding: 10px 0px;
+    font-size: 16px;
+    border: 2px solid rgb(179, 155, 0);
+    border-radius: 4px 0 0 4px;
+    width: 90px;
+    outline: none;
+    transition: border-color 0.3s; 
+    margin:10px;
+}
+
+#updatetext:focus {
+    border-color:rgb(96, 84, 3);
+}
+
+#updtd{
+    display:flex;
+    justify-content:center;
+    text-align: center
+
+}
+
+
 
 
 </style>

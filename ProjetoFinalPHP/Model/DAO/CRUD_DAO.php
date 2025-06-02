@@ -3,7 +3,7 @@ session_start();
 include('conexao.php');
 
 if (!isset($_POST['acao']) || !isset($_POST['tipo'])) {
-    $_SESSION['mensagem'] = 'Erro!';
+    $_SESSION['mensagem'] = 'Erro not set!';
     header('Location: ../../Viewer/telaCRUDadmin.php');
     exit();
 }
@@ -32,16 +32,21 @@ try {
         } else {
             $_SESSION['mensagem'] = 'Erro!';
         }
+        header('Location: ../../Viewer/telaCRUDadmin.php');
+        exit();
 
     } elseif ($acao === 'atualizar') {
         $cpf_crm = $_POST['cpf_crm'] ?? '';
-        $novo_nome = $_POST['novo_nome'] ?? '';
+        $novo_nome = $_POST['novo_dado'] ?? '';
+        $coluna = $_POST['coluna'] ?? '';
 
         if ($tipo === 'medico') {
-            $stmt = $conexao->prepare("UPDATE medico SET nome = ? WHERE crm = ?");
+            if($coluna === 'cpfcrm'){$coluna = "crm";}
+            $stmt = $conexao->prepare("UPDATE medico SET ".$coluna." = ? WHERE crm = ?");
             $stmt->bind_param("ss", $novo_nome, $cpf_crm);
         } elseif ($tipo === 'paciente') {
-            $stmt = $conexao->prepare("UPDATE paciente SET nome = ? WHERE cpf = ?");
+            if($coluna === 'cpfcrm'){$coluna = "cpf";}
+            $stmt = $conexao->prepare("UPDATE paciente SET ".$coluna." = ? WHERE cpf = ?");
             $stmt->bind_param("ss", $novo_nome, $cpf_crm);
         }
 
@@ -50,6 +55,8 @@ try {
         } else {
             $_SESSION['mensagem'] = 'Erro!';
         }
+        header('Location: ../../Viewer/telaPesquisaAdmin.php');
+        exit();
 
     } elseif ($acao === 'deletar') {
         $cpf_crm_username = $_POST['cpf_crm_username'] ?? '';
@@ -63,6 +70,13 @@ try {
         } elseif($tipo === 'usuario'){
            $stmt = $conexao->prepare("DELETE FROM usuario WHERE usuario = ?");
         $stmt->bind_param("s", $cpf_crm_username);
+         if ($stmt->execute() && $stmt->affected_rows > 0) {
+            $_SESSION['mensagem'] = 'Sucesso!';
+        } else {
+            $_SESSION['mensagem'] = 'Erro!';
+        }
+        header('Location: ../../Viewer/telaCRUDadmin.php');
+        exit();
         }
 
         if ($stmt->execute() && $stmt->affected_rows > 0) {
@@ -70,10 +84,11 @@ try {
         } else {
             $_SESSION['mensagem'] = 'Erro!';
         }
+        header('Location: ../../Viewer/telaPesquisaAdmin.php');
+        exit();
     }
 } catch (Exception $e) {
     $_SESSION['mensagem'] = 'Erro!';
 }
 
-header('Location: ../../Viewer/telaCRUDadmin.php');
-exit();
+

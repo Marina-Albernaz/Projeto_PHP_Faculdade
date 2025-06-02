@@ -23,23 +23,31 @@
     <section>
         <div>
             <form action="telaLogAdmin.php" method="post">
-                <input type="datetime-local" placeholder="Insira a Data da Operação Realizada" name="searchbar" id="searchbar" maxlength="100">
+                <input type="date" name="searchbardate" class="searchbar">
+                <br>
+                <input type="time" name="searchbar" class="searchbar">
                 <input type="submit" name="botao" value="🔍">
             </form>
         </div>
         
         <div>
             <?php
-            if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["searchbar"]) && isset($_POST["botao"])) {
+            if ($_SERVER["REQUEST_METHOD"] == "POST" && (isset($_POST["searchbar"]) || isset($_POST["searchbardate"])) && isset($_POST["botao"])) {
     $acao = $_POST["botao"];
+            if(!($_POST["searchbar"] === "")  && !($_POST["searchbardate"] === "")){
+    $pesquisa = $_POST["searchbardate"]." ".$_POST["searchbar"];
+    } elseif(!($_POST["searchbardate"] === "")  && ($_POST["searchbar"] === "")){
+    $pesquisa = $_POST["searchbardate"];
+    } elseif(($_POST["searchbardate"] === "")  && !($_POST["searchbar"] === "")){
     $pesquisa = $_POST["searchbar"];
-    $pesquisa = str_replace("T", " ", $pesquisa);
-
+    } else{
+        $pesquisa = "";
+    }
     include_once("../Model/DAO/conexao.php");
     $pesquisa = mysqli_real_escape_string($conexao, $pesquisa);
 
         
-        $query = "SELECT operacao, tabela, datahora FROM trigger_table WHERE datahora LIKE '$pesquisa%'";
+        $query = "SELECT operacao, tabela, datahora FROM trigger_table WHERE datahora LIKE '%$pesquisa%' ";
         $resultado = mysqli_query($conexao, $query);
         if (mysqli_num_rows($resultado) > 0) {
             echo "<table border='1'>
@@ -124,7 +132,7 @@ form {
     margin-bottom: 20px;
 }
 
-#searchbar {
+.searchbar {
     padding: 10px;
     font-size: 16px;
     border: 2px solid #007bff;
@@ -134,12 +142,12 @@ form {
     transition: border-color 0.3s;
 }
 
-#searchbar:focus {
+.searchbar:focus {
     border-color: #0056b3;
 }
 
 input[type="submit"] {
-    padding: 10px 20px;
+    padding: 20px 20px;
     font-size: 16px;
     border: none;
     background-color: #007bff;
