@@ -81,7 +81,7 @@ label {
 
 input[type="text"],
 select {
-    width: 100%;
+    width: 90%;
     padding: 10px;
     margin-bottom: 15px;
     border: 2px solid #007bff;
@@ -105,6 +105,15 @@ button {
 input[type="submit"]:hover,
 button:hover {
     background-color: #0056b3;
+}
+
+input[type="number"]{
+    width: 20%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 2px solid #007bff;
+    border-radius: 6px;
+    font-size: 16px;
 }
 
 .mensagem {
@@ -167,6 +176,7 @@ button:hover {
                 <label>Nome: <input type="text" name="nome"></label><br>
                 <label>CRM (para Médico): <input type="text" name="crm"></label><br>
                 <label>CPF (para Paciente): <input type="text" name="cpf"></label><br>
+                <label>Leito (para Paciente):<br> <input type="number" name="leito"></label><br>
                 <label>Médico (para Paciente):
                     <select name="medico_id">
                         <option value="">Selecione</option>

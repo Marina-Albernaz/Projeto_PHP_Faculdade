@@ -39,9 +39,9 @@
 
     if ($acao == "🔍") {
         $query = "
-        SELECT nome, cpf FROM paciente WHERE nome LIKE '$pesquisa%'
+        SELECT nome, cpf, leito FROM paciente WHERE nome LIKE '$pesquisa%'
         UNION
-        SELECT nome, crm AS cpf FROM medico WHERE nome LIKE '$pesquisa%'
+        SELECT nome, crm AS cpf, leito FROM medico WHERE nome LIKE '$pesquisa%'
         ";
         $resultado = mysqli_query($conexao, $query);
         if (mysqli_num_rows($resultado) > 0) {
@@ -49,6 +49,7 @@
             <tr>
             <th>Nome</th>
             <th>CPF/CRM</th>
+            <th>Leito</th>
             <th>Tipo</th>
             </tr>";
             while ($linha = mysqli_fetch_assoc($resultado)) {
@@ -59,13 +60,14 @@
                 }
                 echo "<tr>
                 <td>{$linha['nome']}</td>
-                <td>{$linha['cpf']}</td>
-                <td>{$type}</td>
+                <td>{$linha['cpf']}</td>";
+                if($linha['leito'] != 0){echo "<td>{$linha['leito']}</td>";} else {echo"<td>-</td>";}
+                echo "<td>{$type}</td>
                 </tr>";
             }
             echo "</table>";
         } else {
-           echo "<table>";
+                echo "<table>";
                 echo "<tr>";
                 echo "<th class='errormsg'>Nenhum resultado encontrado.</th>";
                 echo "</tr>";

@@ -21,9 +21,10 @@ try {
             $stmt->bind_param("ss", $crm, $nome);
         } elseif ($tipo === 'paciente') {
             $cpf = $_POST['cpf'] ?? '';
+            $leito = $_POST['leito'] ?? null;
             $medico_id = $_POST['medico_id'] ?? null;
-            $stmt = $conexao->prepare("INSERT INTO paciente (cpf, nome, id_medico) VALUES (?, ?, ?)");
-            $stmt->bind_param("ssi", $cpf, $nome, $medico_id);
+            $stmt = $conexao->prepare("INSERT INTO paciente (cpf, nome, id_medico, leito) VALUES (?, ?, ?, ?)");
+            $stmt->bind_param("ssii", $cpf, $nome, $medico_id, $leito);
         }
 
         if ($stmt->execute()) {
