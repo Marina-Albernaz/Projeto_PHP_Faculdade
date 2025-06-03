@@ -8,6 +8,7 @@ $usuario = mysqli_real_escape_string($conexao, trim($_POST['usuario']));
 //função MD5 para criptografar a senha//
 
 $senha = mysqli_real_escape_string($conexao, trim(md5($_POST['senha'])));
+$tipo = mysqli_real_escape_string($conexao, trim($_POST['tipo']));
 
 $sql = "select count(*) as total from usuario where usuario = '$usuario'";
 $result = mysqli_query($conexao, $sql);
@@ -19,7 +20,7 @@ if($row['total'] == 1) {
 	exit;
 }
 
-$sql = "INSERT INTO usuario (nome, usuario, senha, data_cadastro, tipo_usuario) VALUES ('$nome', '$usuario', '$senha', NOW(), 1)";
+$sql = "INSERT INTO usuario (nome, usuario, senha, data_cadastro, tipo_usuario) VALUES ('$nome', '$usuario', '$senha', NOW(), {$tipo})";
 
 if($conexao->query($sql) === TRUE) {
 	$_SESSION['status_cadastro'] = true;

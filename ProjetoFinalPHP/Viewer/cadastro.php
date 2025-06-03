@@ -59,7 +59,17 @@
                     unset($_SESSION['usuario_existe']);
                     ?> 
                     <div class="box">
+                        
                         <form action="../Model/DAO/cadastrar.php" method="POST">
+
+                        <div class="field" id="slct">
+                                <div class="control">
+                                    <select name="tipo" id="tipo">
+                                        <option value="1">Usuário Final</option>
+                                        <option value="2">Usuário Admin.</option>
+                                    </select>
+                                </div>
+                            </div>
                             <div class="field">
                                 <div class="control">
                                     <input name="nome" type="text" class="input is-large" placeholder="Nome" autofocus>
@@ -84,6 +94,11 @@
     </section>
 
         <style>
+    #slct{
+        justify-content: center;
+        display: flex;
+    }
+         
     body {
         font-family: Arial, sans-serif;
         background-color: #f0f8ff;
@@ -128,6 +143,8 @@
         padding: 30px;
         background-color: #fff;
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        display: flex;
+        justify-content: center;
     }
 
     .title.has-text-grey {
@@ -183,6 +200,13 @@
         font-size: 28px;
         color:rgb(245, 245, 245);
         font-weight: bold;
+    }
+    select{
+        border: 1px solid #007bff;
+        border-radius: 8px;
+        padding: 10px;
+        background-color: #fff;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     }
 
     </style>
