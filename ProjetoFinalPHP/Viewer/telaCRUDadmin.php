@@ -10,7 +10,7 @@ if (isset($_SESSION['mensagem'])) {
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    
+    <link rel="icon" href="../Images/logo hospital.avif" type="image/x-icon">
     <meta charset="UTF-8">
     <title>Página de Gerenciamento</title>
     <style>
