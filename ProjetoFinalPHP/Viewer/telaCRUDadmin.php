@@ -195,6 +195,68 @@ input[type="number"]{
             <input type="submit" value="Inserir">
         </form>
 
+        <h2>Alterar Médico</h2>
+        <form action="../Model/DAO/CRUD_DAO.php" method="POST">
+            <input type="hidden" name="tipo" value="medico">
+
+            <div>
+                <label>Nome: <input type="text" name="nome"></label><br>
+                <label>CRM : <input type="text" name="crm"></label><br>
+                    <label>
+                        Médico a Alterar:
+                        <select name="coluna_id">
+                        <option value="">Selecione</option>
+                        <?php
+                        $medicos = mysqli_query($conexao, "SELECT id, nome FROM medico");
+                        while ($medico = mysqli_fetch_assoc($medicos)) {
+                            echo "<option value='{$medico['id']}'>{$medico['nome']}</option>";
+                        }
+                        ?>
+                    </select>
+                </label><br>
+            </div>
+
+            <input type="hidden" name="acao" value="atualizarplus">
+            <input type="submit" value="Atualizar">
+        </form>
+
+        <h2>Alterar Paciente</h2>
+        <form action="../Model/DAO/CRUD_DAO.php" method="POST">
+            <input type="hidden" name="tipo" value="paciente">
+
+            <div>
+                <label><br>
+                        Paciente a Alterar:
+                        <select name="coluna_id">
+                        <option value="">Selecione</option>
+                        <?php
+                        $pacientes = mysqli_query($conexao, "SELECT id, nome FROM paciente");
+                        while ($paciente = mysqli_fetch_assoc($pacientes)) {
+                            echo "<option value='{$paciente['id']}'>{$paciente['nome']}</option>";
+                        }
+                        ?>
+                    </select>
+                </label><br>                
+                <label>Nome: <input type="text" name="nome"></label><br>
+                <label>CPF: <input type="text" name="cpf"></label><br>
+                <label>Leito:<br> <input type="number" name="leito"></label><br>
+                <label>Médico:
+                    <select name="medico_id">
+                        <option value="">Selecione</option>
+                        <?php
+                        $medicos = mysqli_query($conexao, "SELECT id, nome FROM medico");
+                        while ($medico = mysqli_fetch_assoc($medicos)) {
+                            echo "<option value='{$medico['id']}'>{$medico['nome']}</option>";
+                        }
+                        ?>
+                    </select>
+                    
+            </div>
+
+            <input type="hidden" name="acao" value="atualizarplus">
+            <input type="submit" value="Atualizar">
+        </form>
+
         <h2>Deletar Usuario</h2>
         <form action="../Model/DAO/CRUD_DAO.php" method="POST">
             <input type="hidden" value="usuario" name="tipo">

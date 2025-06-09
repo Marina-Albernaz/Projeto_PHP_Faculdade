@@ -86,6 +86,126 @@ try {
         }
         header('Location: ../../Viewer/telaPesquisaAdmin.php');
         exit();
+    } elseif($acao === 'atualizarplus'){
+
+        $columns = 0;
+
+        if(isset($_POST['crm'])){
+            $crm = $_POST['crm'] ?? '';
+            $columns++;
+        }
+        if(isset($_POST['cpf'])){
+             $cpf = $_POST['cpf'] ?? '';
+             $columns++;
+        }
+        if(isset($_POST['leito'])){
+             $leito = $_POST['leito'] ?? null;
+             $columns++;
+        }
+        if(isset($_POST['medico_id'])){
+             $medico_id= $_POST['medico_id'] ?? null;
+             $medico_id = (int) $medico_id; 
+             $columns++;
+        }
+        if(isset($_POST['nome'])){
+             $nome = $_POST['nome'] ?? '';
+             $columns++;
+        }
+        if(isset($_POST['coluna_id']) && $columns > 0){
+             $coluna_id = $_POST['coluna_id'] ?? null;
+             $linhas_afetadas = 0;        
+
+        if ($tipo === 'medico') {
+
+            if(isset($nome) && $nome !== "" && $nome !== null){
+            $stmt = $conexao->prepare("UPDATE medico SET nome = ? WHERE id = ?");
+            $stmt->bind_param("si", $nome, $coluna_id);
+                if ($stmt->execute() && $stmt->affected_rows > 0) {
+                    $linhas_afetadas++;
+                } else{
+                    $_SESSION['mensagem'] = 'Erro!';
+                    header('Location: ../../Viewer/telaCRUDAdmin.php');
+                    exit();
+                }
+            }
+            if(isset($crm) && $crm !== "" && $crm !== null){
+            $stmt = $conexao->prepare("UPDATE medico SET crm = ? WHERE id = ?");
+            $stmt->bind_param("si", $crm, $coluna_id);
+                if ($stmt->execute() && $stmt->affected_rows > 0) {
+                    $linhas_afetadas++;
+                } else{
+                    $_SESSION['mensagem'] = 'Erro!';
+                    header('Location: ../../Viewer/telaCRUDAdmin.php');
+                    exit();
+                }
+            }
+                $_SESSION['mensagem'] = 'Sucesso!';
+                header('Location: ../../Viewer/telaCRUDAdmin.php');
+                exit();
+            
+        } elseif ($tipo === 'paciente') {
+    if (isset($nome) && $nome !== "") {
+        $stmt = $conexao->prepare("UPDATE paciente SET nome = ? WHERE id = ?");
+        $stmt->bind_param("si", $nome, $coluna_id);
+        if ($stmt->execute() && $stmt->affected_rows > 0) {
+            $linhas_afetadas++;
+        } else {
+            $_SESSION['mensagem'] = 'Erro!';
+            header('Location: ../../Viewer/telaCRUDAdmin.php');
+            exit();
+        }
+    }
+
+    if (isset($cpf) && $cpf !== "") {
+        $stmt = $conexao->prepare("UPDATE paciente SET cpf = ? WHERE id = ?");
+        $stmt->bind_param("si", $cpf, $coluna_id);
+        if ($stmt->execute() && $stmt->affected_rows > 0) {
+            $linhas_afetadas++;
+        } else {
+            $_SESSION['mensagem'] = 'Erro!';
+            header('Location: ../../Viewer/telaCRUDAdmin.php');
+            exit();
+        }
+    }
+
+    if (isset($medico_id) && $medico_id !== "" && is_numeric($medico_id) && $medico_id > 0) {
+         $medico_id = (int) $medico_id; 
+        $stmt = $conexao->prepare("UPDATE paciente SET id_medico = ? WHERE id = ?");
+        $stmt->bind_param("ii", $medico_id, $coluna_id);
+        if ($stmt->execute() && $stmt->affected_rows > 0) {
+            $linhas_afetadas++;
+        } else {
+            $_SESSION['mensagem'] = 'Erro!';
+            header('Location: ../../Viewer/telaCRUDAdmin.php');
+            exit();
+        }
+    }
+
+
+    if (isset($leito) && $leito !== "" && is_numeric($leito)) {
+        $leito = (int) $leito; 
+        $stmt = $conexao->prepare("UPDATE paciente SET leito = ? WHERE id = ?");
+        $stmt->bind_param("ii", $leito, $coluna_id);
+        if ($stmt->execute() && $stmt->affected_rows > 0) {
+            $linhas_afetadas++;
+        } else {
+            $_SESSION['mensagem'] = 'Erro!';
+            header('Location: ../../Viewer/telaCRUDAdmin.php');
+            exit();
+        }
+    }
+
+    $_SESSION['mensagem'] = 'Sucesso!';
+    header('Location: ../../Viewer/telaCRUDAdmin.php');
+    exit();
+}
+
+         
+        } else{
+            $_SESSION['mensagem'] = 'Erro!';
+            header('Location: ../../Viewer/telaCRUDAdmin.php');
+            exit();
+        }
     }
 } catch (Exception $e) {
     $_SESSION['mensagem'] = 'Erro!';
