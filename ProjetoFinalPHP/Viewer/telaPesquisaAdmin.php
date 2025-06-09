@@ -24,7 +24,6 @@ if (isset($_SESSION['mensagem'])) {
         <nav>
             <a href="telaUsuarioAdmin.php">Página do Usuário</a>
             <a href="telaPesquisaAdmin.php">Pesquisar</a>
-            <a href="telaCRUDadmin.php">Gerenciar</a>
             <a href="cadastro.php">Cadastrar</a>
             <a href="telaLogAdmin.php">Log</a>
             <a href="../Model/logout.php">Sair</a>
@@ -42,7 +41,9 @@ if (isset($_SESSION['mensagem'])) {
                 <input type="text" placeholder="Insira o nome do Paciente ou Médico" name="searchbar" id="searchbar" maxlength="100">
                 <input type="submit" name="botao" value="🔍">
                 <input type="submit" name="botao" value="🔗">
+                <input type="submit" name="botao" value="🛠️">
             </form>
+
         </div>
         
         <div>
@@ -155,6 +156,8 @@ if (isset($_SESSION['mensagem'])) {
             }
             mysqli_close($conexao);
 
+            } elseif($acao="🛠️"){
+                echo "<iframe src='telaCRUDadmin.php' height='500vh' width='1000vw' title='Operações'></iframe>";
             }
             } else{
                 echo"<table>";
@@ -163,6 +166,9 @@ if (isset($_SESSION['mensagem'])) {
                 echo"</tr>";
                 echo"<tr>";
                 echo"<th>Selecione 🔗 para Pesquisar qual o Médico de cada Paciente!</th>";
+                echo"</tr>";
+                echo"<tr>";
+                echo"<th>Selecione 🛠️ para Inserir, Alterar ou Excluir um Paciente, Médico ou Usuário!</th>";
                 echo"</tr>";
                 echo"</table>";
             }
